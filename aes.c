@@ -1,5 +1,5 @@
 #include<stdio.h>
-//#include <time.h>	
+
 int flag = 0, start=0;
 char plaintext[16];
 int counter = 0, count=0;
@@ -24,10 +24,11 @@ unsigned char sbox[16][16] = {{0x63,0x7C,0x77,0x7B,0xF2,0x6B,0x6F,0xC5,0x30,0x01
 		    {0x70,0x3E,0xB5,0x66,0x48,0x03,0xF6,0x0E,0x61,0x35,0x57,0xB9,0x86,0xC1,0x1D,0x9E},
 		    {0xE1,0xF8,0x98,0x11,0x69,0xD9,0x8E,0x94,0x9B,0x1E,0x87,0xE9,0xCE,0x55,0x28,0xDF},
 		    {0x8C,0xA1,0x89,0x0D,0xBF,0xE6,0x42,0x68,0x41,0x99,0x2D,0x0F,0xB0,0x54,0xBB,0x16}};
+
+
 void input()
 {
 	int ii;
-	//printf("In input()\n");
 	if(start==0)
 	{
 		fp = fopen("Plain_Text_Input.txt", "r");
@@ -51,11 +52,6 @@ void input()
 				break;
 			}
 		}
-		//Printing Plain Text
-		//for(int i=0;i<16;i++)
-		//	printf("%c",plaintext[i]);
-		//printf("\n");
-		//Initialising statearray with plaintext
 		for(int i=0;i<4;i++)
 		{
 			for(int j=0;j<4;j++,count++)
@@ -69,28 +65,10 @@ void input()
 		{
 			flag=1;
 		}
-		/*printf("Printing Plain Text in hexadecimal form :\n");
-		for(int i=0;i<4;i++)
-		{
-			for(int j=0;j<4;j++)
-			{
-				printf("%X ",statearray[i][j]);
-			}
-			printf("\n");
-		}*/
-		/*
-		//Printing statearray in character form :
-		for(int i=0;i<4;i++)
-		{
-			for(int j=0;j<4;j++)
-			{
-				printf("%c ",statearray[i][j]);
-			}
-			printf("\n");
-		}
-		*/
 	}
 }
+
+
 void masterkey()
 {
 	int count = 0;
@@ -104,32 +82,11 @@ void masterkey()
 			roundkey[j][i] = mtrkey[count];
 		}	
 	}
-	//for(int i=0;i<16;i++)
-	//	printf("%c",mtrkey[i]);
-	//printf("\n");
-/*	printf("Printing masterkey in hexadecimal form :\n");
-	for(int i=0;i<4;i++)
-	{
-		for(int j=0;j<4;j++)
-		{
-			printf("%X ",roundkey[i][j]);
-		}
-		printf("\n");
-	}*/
 }
+
+
 void addroundkey()
 {
-	/*
-	printf("Statearray before add Round function :\n");
-	for(int i=0;i<4;i++)
-	{
-		for(int j=0;j<4;j++)
-		{
-			printf("%X ",statearray[i][j]);
-		}
-		printf("\n");
-	}
-	*/
 	//Performing add round function
 	for(int i=0;i<4;i++)
 	{
@@ -138,18 +95,9 @@ void addroundkey()
 			statearray[i][j]^= roundkey[i][j];
 		}
 	}
-	/*
-	printf("Statearray after add Round function :\n");
-	for(int i=0;i<4;i++)
-	{
-		for(int j=0;j<4;j++)
-		{
-			printf("%X ",statearray[i][j]);
-		}
-		printf("\n");
-	}
-	*/
 }
+
+
 void subbyte()
 {
 	for(int i=0;i<4;i++)
@@ -159,18 +107,9 @@ void subbyte()
 			statearray[i][j]= sbox[statearray[i][j]>>4][statearray[i][j]&0x0F];
 		}
 	}
-	/*
-	printf("Printing statearray after s-box substitution :\n");
-	for(int i=0;i<4;i++)
-	{
-		for(int j=0;j<4;j++)
-		{
-			printf("%X ",statearray[i][j]);
-		}
-		printf("\n");
-	}
-	*/
 }
+
+
 void shiftrow()
 {
 	for(int i=1;i<4;i++)
@@ -185,18 +124,9 @@ void shiftrow()
 			statearray[i][3] = temp;
 		}
 	}
-	/*
-	printf("Printing statearray after row shift : \n");
-	for(int i=0;i<4;i++)
-	{
-		for(int j=0;j<4;j++)
-		{
-			printf("%X ",statearray[i][j]);
-		}
-		printf("\n");
-	}
-	*/
 }
+
+
 void mixcolm()
 {
 	unsigned char statearray1[4][4];
@@ -214,19 +144,9 @@ void mixcolm()
 			statearray[i][j] = statearray1[i][j];
 		}
 	}	
-	/*
-	printf("Printing statearray after mix column : \n");
-	for(int i=0;i<4;i++)
-	{
-		for(int j=0;j<4;j++)
-		{
-			printf("%X ",statearray[i][j]);
-		}
-		printf("\n");
-
-	}
-	*/
 }
+
+
 void g()
 {
 	//Shifting the 4th column words upwards
@@ -237,47 +157,19 @@ void g()
 		
 	}
 	roundkey[3][3] = temp;
-	/*
-	printf("\nArray after Left Shift :\n");
-	for(int i =0;i<4;i++)
-	{
-		printf("%X ",roundkey[i][3]);
-	}
-	*/
+	
 	//Performing S-box substitution 
 	for(int i=0;i<4;i++)
 	{
 		roundkey[i][3] = sbox[roundkey[i][3]>>4][roundkey[i][3]&0x0F];
 	}
-	/*
-	printf("\nArray after S-byte substitution :\n");
-	for(int i =0;i<4;i++)
-	{
-		printf("%X ",roundkey[i][3]);
-	}
-	*/
+	
 	int RC[10] = {0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80,0x1B,0x36};
 	//Performing Xor with RC
 	roundkey[0][3]^=RC[rounds-1];
-	/*
-	printf("\n%X ",RC[rounds-1]);
-	printf("\nArray after Xor with RC :\n");
-	for(int i =0;i<4;i++)
-	{
-		printf("%X ",roundkey[i][3]);
-	}
-	printf("\n");
-	printf("Roundkey after g function : \n"); 
-	for(int i=0;i<4;i++)
-	{
-		for(int j=0;j<4;j++)
-		{
-			printf("%X ",roundkey[i][j]);
-		}
-		printf("\n");
-	}
-	*/
 }
+
+
 void keyexpansion()
 {
 	unsigned char w4[4] = {roundkey[0][3],roundkey[1][3],roundkey[2][3],roundkey[3][3]};	
@@ -287,17 +179,7 @@ void keyexpansion()
 	{
 		roundkey[i][0]^= roundkey[i][3];
 	}
-	/*
-	printf("Roundkey after altering 1st column : \n");	
-	for(int i=0;i<4;i++)
-	{
-		for(int j=0;j<4;j++)
-		{
-			printf("%X ",roundkey[i][j]);
-		}
-		printf("\n");
-	}
-	*/
+	
 	//Finding new 2nd,3rd column of roundkey
 	for(int j=1;j<3;j++)
 	{
@@ -305,40 +187,19 @@ void keyexpansion()
 		{
 			roundkey[i][j]= roundkey[i][j-1]^roundkey[i][j];
 		}
-		/*
-		printf("Change :\n");	
-		for(int i=0;i<4;i++)
-		{
-			for(int j=0;j<4;j++)
-			{
-				printf("%X ",roundkey[i][j]);
-			}
-			printf("\n");
-		}
-		*/
 	}
+	
 	//Finding new 4th column of roundkey 
 	for(int i=0;i<4;i++)
 	{
 		roundkey[i][3]= roundkey[i][2]^w4[i];
 	}
-	/*	
-	printf("Roundkey after altering all column : \n");	
-	for(int i=0;i<4;i++)
-	{
-		for(int j=0;j<4;j++)
-		{
-			printf("%X ",roundkey[i][j]);
-		}
-		printf("\n");
-	}
-	*/
 }
+
 void output()
 {
 	FILE *f_output;
 	f_output = fopen("Encrypted_Text.txt","a");
-	//printf("The encrepted plaintext is :\n");
 	for(int i=0;i<4;i++)
 	{	
 		for(int j=0;j<4;j++)
@@ -346,11 +207,12 @@ void output()
 			fprintf(f_output,"%02X",statearray[j][i]);
 			printf("%02x", statearray[j][i]);
 		}
-		//printf(" ");
 	}
+	
 	fclose(f_output);
-	//printf("\n");
 }
+
+
 void rnds()
 {
 	for(;rounds<=10;rounds++)
@@ -373,23 +235,22 @@ void rnds()
 	}	
 	output();
 }
+
+
 void main()
 {
 	FILE *fp;
 	fp = fopen("Encrypted_Text.txt","w");
 	fclose(fp);
-	//clock_t t;
-	//t = clock();
 	masterkey();
 	printf("The encrepted plaintext is :\n");
 	for(;flag!=1;)
-	{input();
+	{
+	input();
 	masterkey();
 	addroundkey();
 	rnds();
 	rounds=1;
-	count=0;}
-	//t = clock() - t;
-	//double time_taken = (double)t;
-	//printf("%f\n", time_taken);
+	count=0;
+	}
 }
