@@ -68,12 +68,7 @@ void input() {
 				break;
 			}
 		}
-		//Printing Plain Text
-		/*
-			for(int i=0;i<16;i++)
-			printf("%c",encryptedtext[i]);
-			printf("\n");
-		*/
+		
 		//Initialising statearray with encryptedtext
 		for(int i=0;i<4;i++)
 		{
@@ -89,17 +84,6 @@ void input() {
 			flag=1;
 		}
 	}
-	//Printing Statearray in hexadecimal form
-	/*
-		 for(int i=0;i<4;i++)
-		 {
-			for(int j=0;j<4;j++)
-		 	{
-		 		printf("%02X ",statearray[i][j]);
-		 	}
-		 	printf("\n");
-		 }
-	*/
 }
 
 void init(){
@@ -128,17 +112,6 @@ void addroundkey(){
 		for(int j=0;j<4;j++)
 		statearray[i][j] ^= f_key[(rounds*4)+i][j];
 	}
-	//Statearray after inverse add Round function
-	/*
-		for(int i=0;i<4;i++)
-		{
-			for(int j=0;j<4;j++)
-			{
-				printf("%X ",statearray[i][j]);
-			}
-			printf("\n");
-		}
-	*/
 }
 
 void subbyte() {
@@ -150,17 +123,6 @@ void subbyte() {
 			statearray[i][j]= sbox[statearray[i][j]>>4][statearray[i][j]&0x0f];
 		}
 	}
-	//Printing statearray after S-Byte Substitution
-	/*
-		for(int i=0;i<4;i++)
-		{
-			for(int j=0;j<4;j++)
-			{
-				printf("%X ",statearray[i][j]);
-			}
-			printf("\n");
-		}
-	*/
 }
 
 void invsubs (){
@@ -172,17 +134,6 @@ void invsubs (){
 			statearray[i][j]= invsbox[statearray[i][j]>>4][statearray[i][j]&0x0f];
 		}
 	}
-	//Printing statearray after reverse S-Byte Substitution
-	/*
-		for(int i=0;i<4;i++)
-		{
-			for(int j=0;j<4;j++)
-			{
-				printf("%X ",statearray[i][j]);
-			}
-			printf("\n");
-		}
-	*/
 }
 
 unsigned char multiply(unsigned char num1,unsigned char num2) {
@@ -234,17 +185,6 @@ void invmixcolumns () {
 			statearray[i][j] = result[i][j];
 		}
 	}
-	//Printing statearray after inverse mix column
-	/*
-		for(int i=0;i<4;i++)
-		{
-			for(int j=0;j<4;j++)
-			{
-				printf("%X ",statearray[i][j]);
-			}
-			printf("\n");
-		}
-	*/
 }
 
 void invshiftrows() {
@@ -261,17 +201,6 @@ void invshiftrows() {
 			statearray[i][3] = temp;
 		}
 	}
-	//Printing statearray after inverse row shift
-	/*
-		for(int i=0;i<4;i++)
-		{
-			for(int j=0;j<4;j++)
-			{
-				printf("%X ",statearray[i][j]);
-			}
-			printf("\n");
-		}
-	*/
 }
 
 void key_ex() {
